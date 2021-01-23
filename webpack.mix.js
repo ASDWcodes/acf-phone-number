@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -15,10 +15,12 @@ mix
   .setPublicPath('./public')
   .js('assets/js/field.js', 'public/js')
   .sass('assets/css/field.scss', 'public/css')
+  .copyDirectory('node_modules/intl-tel-input/build/img', 'public/images')
   .options({
     processCssUrls: false,
+    postCss: [require('tailwindcss')],
   })
   .autoload({
     jquery: ['$', 'window.jQuery'],
   })
-  .version();
+  .version()

@@ -38,7 +38,8 @@ class PhoneNumberField extends \acf_field
      * @var array
      */
     public $defaults = [
-        'country' => 'us',
+        'default_country' => 'us',
+        'extension_support' => false,
     ];
 
     /**
@@ -74,10 +75,16 @@ class PhoneNumberField extends \acf_field
         }
 
         echo sprintf(
-            '<input type="tel" name="%s[number]" value="%s" />',
+            '<div class="acf-field-phone-number__number">
+                <input class="acf-field-phone-number__number" type="tel" name="%s[number]" value="%s" />
+            </div>',
             $field['name'],
             $field['value']['number']
         );
+
+        echo '<div class="acf-field-phone-number__extension">
+            <input type="text" name="extension" value="" placeholder="Ext." />
+        </div>';
 
         echo sprintf(
             '<input data-default-country="%s" type="hidden" name="%s[country]" value="%s" />',
@@ -101,8 +108,17 @@ class PhoneNumberField extends \acf_field
             'type' => 'select',
             'ui' => 1,
             'name' => 'default_country',
-            'default_value' => $this->defaults['country'],
+            'default_value' => $this->defaults['default_country'],
             'choices' => $this->phoneNumber->getCountries()
+        ]);
+
+        acf_render_field_setting($field, [
+            'label' => 'Enable Extensions',
+            'instructions' => 'Add support for internal phone number extensions.',
+            'type' => 'true_false',
+            'ui' => 1,
+            'name' => 'extension_support',
+            'default_value' => $this->defaults['extension_support']
         ]);
     }
 
